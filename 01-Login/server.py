@@ -87,21 +87,25 @@ def fs_redirect():
 #############################
 @app.route("/")
 def home():
-    print(session)
-    return render_template(
+    # print(session)
+    # if session:
+        # print(session['user']['access_token'])
+    resp = render_template(
         "home.html",
         session=session.get("user"),
         pretty=json.dumps(session.get("user"), indent=4),
     )
-
+    return resp
 
 
 @app.route("/callback", methods=["GET", "POST"])
 def callback():
     token = oauth.auth0.authorize_access_token()
     session["user"] = token
-    return redirect("/")
-
+    accessToken = token['access_token']
+    resp = redirect("/")
+    resp.set_cookie('accessToken', accessToken, expires=datetime.datetime.now() + datetime.timedelta(days=3))
+    return resp
 
 @app.route("/login")
 def login():
@@ -113,7 +117,7 @@ def login():
 @app.route("/logout")
 def logout():
     session.clear()
-    return redirect(
+    resp = redirect(
         "https://"
         + env.get("AUTH0_DOMAIN")
         + "/v2/logout?"
@@ -125,6 +129,9 @@ def logout():
             quote_via=quote_plus,
         )
     )
+    resp.set_cookie('accessToken', '', expires=0)
+    return resp
+
 
 
 if __name__ == "__main__":
