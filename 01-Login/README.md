@@ -1,5 +1,41 @@
 # Auth0 Python Web App Sample
 
+Tableau Example with Oauth
+====
+
+This is the demo, which uses Flask to replace the used express.jd in examples coming along with Tableau WDC v2.0.
+
+So that data analysis job can easily be carried out with Python only, no Express.js and corresponding node.js hosting tricks needed.
+
+## Run It
+
+**Start Page**
+
+Commands, 3 ways:
+```
+# python: raw
+python server.py
+
+# flask: with .flaskenv file
+flask run
+
+# gunicorn: raw
+gunicorn server:app -b 0.0.0.0:3000
+```
+
+For FourSquare Oauth example:
+
+http://localhost:3000/foursquare
+
+
+## Original Repo of Tableau WDC v2.0 Examples 
+
+https://github.com/tableau/webdataconnector
+
+----
+Original Repo of Flask w/ Auth0
+====
+
 This sample demonstrates how to add authentication to a Python web app using Auth0.
 
 # Running the App
