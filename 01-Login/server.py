@@ -87,9 +87,6 @@ def fs_redirect():
 #############################
 @app.route("/")
 def home():
-    # print(session)
-    # if session:
-        # print(session['user']['access_token'])
     resp = render_template(
         "home.html",
         session=session.get("user"),
@@ -110,7 +107,8 @@ def callback():
 @app.route("/login")
 def login():
     return oauth.auth0.authorize_redirect(
-        redirect_uri=url_for("callback", _external=True)
+        redirect_uri=url_for("callback", _external=True),
+        audience=env.get("AUTH0_AUDIENCE")  ## JWT type token for custom API, must-have.
     )
 
 

@@ -1,6 +1,36 @@
-# Auth0 Python Web App Sample
+Auth0 Protected API for Tableau WDC
+====
+1. Prepare .env file.
+```
+AUTH0_CLIENT_ID=
+AUTH0_CLIENT_SECRET=
+AUTH0_DOMAIN=
+AUTH0_AUDIENCE=
+APP_SECRET_KEY=
+```
 
-Tableau Example with Oauth
+2. Create venv environment and install requirement.txt
+
+3. flask run
+
+4. run API with the url `http://localhost:6060`, ref: https://auth0.com/developers/hub/code-samples/api/flask-python/basic-authorization
+
+5. run Tableau WDC Simulator
+
+6. Connector URL: `http://localhost:3000`
+
+7. Get the Table data
+
+| Name | Message |
+|:--|:--|
+| text | The API successfully validated your access token.
+ |
+
+
+-------
+
+
+Reference: Tableau Official Example with Oauth
 ====
 
 This is the demo, which uses Flask to replace the used express.jd in examples coming along with Tableau WDC v2.0.
