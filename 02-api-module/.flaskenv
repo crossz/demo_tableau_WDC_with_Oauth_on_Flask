@@ -1,3 +1,4 @@
-FLASK_APP=server:app
+#FLASK_APP=server:app
+FLASK_APP=routes
 FLASK_RUN_PORT=3000
 FLASK_DEBUG=True
