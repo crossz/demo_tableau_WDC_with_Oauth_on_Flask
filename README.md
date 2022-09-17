@@ -1,5 +1,8 @@
 Auth0 Protected API for Tableau WDC
 ====
+
+**02-api-module**
+
 1. Prepare .env file.
 ```
 AUTH0_CLIENT_ID=
@@ -7,19 +10,42 @@ AUTH0_CLIENT_SECRET=
 AUTH0_DOMAIN=
 AUTH0_AUDIENCE=
 APP_SECRET_KEY=
+CLIENT_ORIGIN_URL=http://localhost:3000
 ```
 
-2. Create venv environment and install requirement.txt
+2. Create venv environment and install from requirement.txt
 
-3. flask run
+3. run
 
-4. run API with the url `http://localhost:6060`, ref: https://auth0.com/developers/hub/code-samples/api/flask-python/basic-authorization
+2 separate flask apps:
 
-5. run Tableau WDC Simulator
+auth0.js should adjust the api url to work on port 6060. The API protected with auth0 refers to https://auth0.com/developers/hub/code-samples/api/flask-python/basic-authorization
 
-6. Connector URL: `http://localhost:3000`
+```
+# start home and login web app
+gunicorn 'routes:create_app()' -b 0.0.0.0:3000
 
-7. Get the Table data
+# start api service
+gunicorn 'api:create_app()' -b 0.0.0.0:6060
+## or
+flask run ## alternative method, configured in .flaskenv
+```
+
+1 wsgi app combined with above 2 flask apps together:
+
+auth0.js should adjust the api url to work on port 3000
+
+```
+gunicorn server:application -b 0.0.0.0:3000
+## or
+python server.py ## alternative way, with debugger
+```
+
+4. run Tableau WDC Simulator
+
+5. Connector URL: `http://localhost:3000`
+
+6. Get the Table data
 
 | Name | Message |
 |:--|:--|
@@ -58,7 +84,7 @@ For FourSquare Oauth example:
 http://localhost:3000/foursquare
 
 
-## Original Repo of Tableau WDC v2.0 Examples 
+## Original Repo of Tableau WDC v2.0 Examples
 
 https://github.com/tableau/webdataconnector
 
