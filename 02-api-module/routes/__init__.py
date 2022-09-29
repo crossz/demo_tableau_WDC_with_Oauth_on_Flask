@@ -11,30 +11,25 @@ from authlib.integrations.requests_client import OAuth2Session
 from dotenv import find_dotenv, load_dotenv
 from flask import Flask, redirect, render_template, session, url_for, request, make_response
 
-from routes import exception_views
-from routes.messages import messages_views
-
+##########################################
+# For non-flask usage
+##########################################
 ENV_FILE = find_dotenv()
 if ENV_FILE:
     load_dotenv(ENV_FILE)
 
 
 def create_app():
-    ##########################################
-    # Environment Variables
-    ##########################################
-    client_origin_url =env.get("CLIENT_ORIGIN_URL")
-    auth0_audience = env.get("AUTH0_AUDIENCE")
-    auth0_domain = env.get("AUTH0_DOMAIN")
-
-    if not (client_origin_url and auth0_audience and auth0_domain):
+    if not (env.get("APP_SECRET_KEY") and 
+            env.get("AUTH0_CLIENT_ID") and 
+            env.get("AUTH0_CLIENT_SECRET") and
+            env.get("AUTH0_DOMAIN") and
+            env.get("AUTH0_AUDIENCE")
+            ):
         raise NameError("The required environment variables are missing. Check .env file.")
-
 
     app = Flask(__name__)
     app.secret_key = env.get("APP_SECRET_KEY")
-
-
 
     oauth = OAuth(app)
     oauth.register(
@@ -65,9 +60,9 @@ def create_app():
     def callback():
         token = oauth.auth0.authorize_access_token()
         session["user"] = token
-        accessToken = token['access_token']
+        accesstoken = token['access_token']
         resp = redirect("/")
-        resp.set_cookie('accessToken', accessToken, expires=datetime.datetime.now() + datetime.timedelta(days=3))
+        resp.set_cookie('accessToken', accesstoken, expires=datetime.datetime.now() + datetime.timedelta(days=3))
         return resp
 
     @app.route("/login")
@@ -95,14 +90,6 @@ def create_app():
         )
         resp.set_cookie('accessToken', '', expires=0)
         return resp
-
-
-    ##########################################
-    # Blueprint Registration
-    ##########################################
-
-    app.register_blueprint(messages_views.bp)
-    app.register_blueprint(exception_views.bp)
 
     return app
 

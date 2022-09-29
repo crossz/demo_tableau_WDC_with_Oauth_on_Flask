@@ -7,16 +7,18 @@ import os
 from flask import Flask
 from flask_cors import CORS
 from flask_talisman import Talisman
+from dotenv import find_dotenv, load_dotenv
 
 from api import exception_views
 from api.messages import messages_views
 from api.security.auth0_service import auth0_service
 
 ##########################################
-# EFor non-flask usage
+# For non-flask usage
 ##########################################
-from dotenv import load_dotenv
-load_dotenv()
+ENV_FILE = find_dotenv()
+if ENV_FILE:
+    load_dotenv(ENV_FILE)
 
 
 def create_app():
