@@ -13,7 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" type="text/javascript"></script>
 
     <!-- Latest WDC Library -->
-    <script src="https://connectors.tableau.com/libs/tableauwdc-2.2.latest.js" type="text/javascript"></script>
+    <script src="https://connectors.tableau.com/libs/tableauwdc-2.3.latest.js" type="text/javascript"></script>
 
     <!-- Use to access cookie storage to grab access token -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.0.2/js.cookie.min.js" type="text/javascript"></script>
@@ -24,29 +24,27 @@
   <body>
 
     <div style="margin: auto; text-align: center; margin-top: 50px; max-width: 300px">
-      <!-- These labels will toggle depending on whether the user is authenticated or not -->
-      <p class="signedin">You are signed in!</p>
-      <p class="notsignedin">You are not signed in, please click below to sign in to your Foursquare account.</p>
-
-      <!-- The connect to Foursquare button will have a link added to it in the js-->
-      <!-- <a href="/signin" id="connectbutton"><img src="static/foursquare_connect.png" alt="Login with Foursquare"/></a> -->
-      <!-- <br /><br /> -->
-      
-      {% if session %}
-      <p><a href="/logout" id="qsLogoutBtn">Logout</a></p>
-      {% else %}
-      <p><a href="/login" id="qsLoginBtn">Login</a></p>
-      <h1 id="profileDropDown">Welcome Guest</h1>
-      {% endif %}
+        <!-- The connect to Foursquare button will have a link added to it in the js-->
+        <!-- <a href="/signin" id="connectbutton"><img src="static/foursquare_connect.png" alt="Login with Foursquare"/></a> -->
+        <!-- <br /><br /> -->
+        
+        {% if session %}
+            <p class="signedin">You are signed in!</p>
+            <p><a href="/logout" id="qsLogoutBtn">Logout</a></p>
+        {% else %}
+            <p class="notsignedin">You are not signed in, please click below to sign in to your Auth0 account.</p>
+            <p><a href="/login" id="qsLoginBtn">Login</a></p>
+            <h1 id="profileDropDown">Welcome Guest</h1>
+        {% endif %}
 
       <!-- This button will pull the user's liked venues once the user is authenticated -->
-      <p><a href="#" id="getapidatabutton" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-arrow-down"></span> Get Data From Flask API</a></p>
+      <!-- <p><a href="#" id="getapidatabutton" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-arrow-down"></span> Get Data From Flask API</a></p> -->
     </div>
 
 
     {% if session %}
     <h2>Welcome {{session.userinfo.name}}!</h2>
-    <div><pre>{{pretty}}</pre></div>
+    <!-- <div><pre>{{pretty}}</pre></div> -->
     {% endif %}
 
   </body>

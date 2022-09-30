@@ -19,7 +19,7 @@
   // This function parses the access token in the URI if available
   // It also adds a link to the foursquare connect button
   $(document).ready(function() {
-      var dataToReturn = [];
+      // var dataToReturn = [];
       var accessToken = Cookies.get("accessToken");
       var hasAuth = accessToken && accessToken.length > 0;
       updateUIWithAuthState(hasAuth);
@@ -40,13 +40,13 @@
   // This function toggles the label shown depending
   // on whether or not the user has been authenticated
   function updateUIWithAuthState(hasAuth) {
-      if (hasAuth) {
-          $(".notsignedin").css('display', 'none');
-          $(".signedin").css('display', 'block');
-      } else {
-          $(".notsignedin").css('display', 'block');
-          $(".signedin").css('display', 'none');
-      }
+      // if (hasAuth) {
+      //     $(".notsignedin").css('display', 'none');
+      //     $(".signedin").css('display', 'block');
+      // } else {
+      //     $(".notsignedin").css('display', 'block');
+      //     $(".signedin").css('display', 'none');
+      // }
   }
 
   //------------- Tableau WDC code -------------//
@@ -59,8 +59,13 @@
       tableau.authType = tableau.authTypeEnum.custom;
 
       // If we are in the auth phase we only want to show the UI needed for auth
+      // https://tableau.github.io/webdataconnector/docs/wdc_authentication.html
+      // Note: This is not really a third phase, because it does not follow the other two; it’s an alternative to the first phase.
+      // In this mode, the connector should display only the UI that is required in order to get an updated token. Updates to properties other than tableau.username and tableau.password will be ignored during this phase.
       if (tableau.phase == tableau.phaseEnum.authPhase) {
-        $("#getapidatabutton").css('display', 'none');
+        // for token expires, e.g. the password input in simulator GUI is changed to a wrong one, 
+        console.log('token expired, please login agian.')
+        // $("#getapidatabutton").css('display', 'none');
       }
 
       if (tableau.phase == tableau.phaseEnum.gatherDataPhase) {
@@ -82,9 +87,12 @@
           if (hasAuth) {
               tableau.password = accessToken;
 
+              tableau.username = "tableau.phase is: " + tableau.phase
+              
               if (tableau.phase == tableau.phaseEnum.authPhase) {
                 // Auto-submit here if we are in the auth phase
-                tableau.submit()
+                console.log("tableau.phase is: ", tableau.phase) // this log can be captured only with the following `tableau.submit()` is commented. 
+                // tableau.submit()
               }
 
               return;

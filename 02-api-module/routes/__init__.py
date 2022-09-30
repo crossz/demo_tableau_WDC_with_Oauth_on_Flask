@@ -18,6 +18,7 @@ ENV_FILE = find_dotenv()
 if ENV_FILE:
     load_dotenv(ENV_FILE)
 
+redirect_back = '/'
 
 def create_app():
     if not (env.get("APP_SECRET_KEY") and 
@@ -28,8 +29,10 @@ def create_app():
             ):
         raise NameError("The required environment variables are missing. Check .env file.")
 
-    app = Flask(__name__)
+    app = Flask(__name__) # Flask(__name__, static_folder='static', template_folder='templates')
     app.secret_key = env.get("APP_SECRET_KEY")
+
+    
 
     oauth = OAuth(app)
     oauth.register(
@@ -41,6 +44,22 @@ def create_app():
         },
         server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration',
     )
+
+
+
+    #############################
+    # Controllers API for WDC
+    #############################
+    @app.route("/cs_byTAT")
+    def cs_by_tat():
+        global redirect_back
+        redirect_back = '/cs_byTAT'
+        resp = render_template(
+            "cs_byTAT/index.html",
+            session=session.get("user"),
+            pretty=json.dumps(session.get("user"), indent=4),
+        )
+        return resp
 
 
     #############################
@@ -58,10 +77,11 @@ def create_app():
 
     @app.route("/callback", methods=["GET", "POST"])
     def callback():
+        global redirect_back
         token = oauth.auth0.authorize_access_token()
         session["user"] = token
         accesstoken = token['access_token']
-        resp = redirect("/")
+        resp = redirect(redirect_back)
         resp.set_cookie('accessToken', accesstoken, expires=datetime.datetime.now() + datetime.timedelta(days=3))
         return resp
 
