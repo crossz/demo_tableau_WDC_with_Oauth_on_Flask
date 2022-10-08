@@ -1,4 +1,5 @@
 .env
+mysql_config.py
 .pyc
 *.iml
 .directory

@@ -8,9 +8,8 @@
   // See part II. of this tutorial for an example of how
   // to do a server-side OAuth flow and avoid this problem
   var config = {
-    //   apiUrl: 'http://localhost:6060/api/messages/protected',
-    //   apiUrl: 'http://localhost:3000/v2/api/messages/protected',
-      apiUrl: '/v2/api/messages/protected',
+      apiUrl: 'http://localhost:6060/api/messages/protected', // for api/routes separately run
+      // apiUrl: '/v2/api/messages/protected', // for 2 flask apps run together by `run_simple`
   }; 
 
   // Called when web page first loads and when

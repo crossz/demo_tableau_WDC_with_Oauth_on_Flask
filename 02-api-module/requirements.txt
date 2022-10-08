@@ -1,4 +1,5 @@
 authlib>=1.0
+beautifulsoup4>=4.11.1
 cffi==1.15.0
 click==8.0.3
 cryptography==35.0.0

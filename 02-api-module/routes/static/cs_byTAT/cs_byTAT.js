@@ -3,7 +3,6 @@
 
     var config = {
         //   apiUrl: 'http://localhost:6060/api/messages/protected',
-        //   apiUrl: 'http://localhost:3000/v2/api/messages/protected',
           apiUrl: '/v2/api/messages/protected',
       }; 
 

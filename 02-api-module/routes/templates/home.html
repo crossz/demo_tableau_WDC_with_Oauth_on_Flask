@@ -5,6 +5,8 @@
     <title>Auth0 + Flask Based Connector</title>
     <meta http-equiv="Cache-Control" content="no-store" />
     <!-- Latest compiled and minified CSS -->
+
+    <link href="static/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
     <!-- Optional theme -->
@@ -37,13 +39,13 @@
             <h1 id="profileDropDown">Welcome Guest</h1>
         {% endif %}
 
-      <!-- This button will pull the user's liked venues once the user is authenticated -->
-      <!-- <p><a href="#" id="getapidatabutton" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-arrow-down"></span> Get Data From Flask API</a></p> -->
+      <!-- Demo on home page of '/'. This button will pull the user's liked venues once the user is authenticated -->
+      <p><a href="#" id="getapidatabutton" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-arrow-down"></span> Get Data From Flask API</a></p>
     </div>
 
 
     {% if session %}
-    <h2>Welcome {{session.userinfo.name}}!</h2>
+    <h2 class="header">Welcome {{session.userinfo.name}}!</h2>
     <!-- <div><pre>{{pretty}}</pre></div> -->
     {% endif %}
 
