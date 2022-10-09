@@ -1,18 +1,10 @@
 (function() {
     'use strict';
 
-    var config = {
-        //   apiUrl: 'http://localhost:6060/api/messages/protected',
-          apiUrl: '/v2/api/messages/protected',
-      }; 
-
-    //------------- OAuth Helpers -------------//
-    // This helper function returns the URI for the venueLikes endpoint
-    // It appends the passed in accessToken to the call to personalize the call for the user
-    function getAPIDataURI(accessToken) {
-        return config.apiUrl;
-    }
-
+    const config = {
+        // apiUrl: 'http://localhost:6060/api/csP0Dashboard/orderByTAT'
+        apiUrl: '/api/v2/csP0Dashboard/orderByTAT'
+    }; 
 
 
     $(document).ready(function() {
@@ -23,7 +15,7 @@
         
         $("#submitButton").click(function() {
             console.log("It is working!");
-            tableau.connectionName = "cs_byTAT"; // This will be the data source name in Tableau
+            tableau.connectionName = "cs_orderByTAT"; // This will be the data source name in Tableau
             tableau.submit(); // This sends the connector object to Tableau
         });
     });
@@ -44,8 +36,6 @@
     }
 
 
-
-// TODO: myConnector.getData
   //------------- Tableau WDC code -------------//
   // Create tableau connector, should be called first
   const myConnector = tableau.makeConnector();
@@ -72,8 +62,8 @@
         // is invalid.
       }
 
-      var accessToken = Cookies.get("accessToken");
-      var hasAuth = (accessToken && accessToken.length > 0) || tableau.password.length > 0;
+      const accessToken = Cookies.get("accessToken");
+      const hasAuth = (accessToken && accessToken.length > 0) || tableau.password.length > 0;
       updateUIWithAuthState(hasAuth);
 
       initCallback();
@@ -89,7 +79,7 @@
               if (tableau.phase == tableau.phaseEnum.authPhase) {
                 // Auto-submit here if we are in the auth phase
                 console.log("tableau.phase is: ", tableau.phase) // this log can be captured only with the following `tableau.submit()` is commented. 
-                // tableau.submit()
+                tableau.submit() // tweak here
               }
 
               return;
@@ -101,7 +91,7 @@
     // Define the schema
     
     myConnector.getSchema = function(schemaCallback) {
-        var cols = [{
+        const cols = [{
             id: "Master_Lab_ID",
             dataType: tableau.dataTypeEnum.string
         }, {
@@ -115,8 +105,8 @@
             dataType: tableau.dataTypeEnum.datetime
         }];
 
-        var tableSchema = {
-            id: "cs_byTAT",
+        const tableSchema = {
+            id: "cs_orderByTAT",
             alias: "Schema for By TAT(CS) Dashboard",
             columns: cols
         };
@@ -127,23 +117,39 @@
   
     // Download the data
     myConnector.getData = function(table, doneCallback) {
-        $.getJSON("https://t2-lims-dashboard-testenv.herokuapp.com/csP0Dashboard/orderByTAT", function(resp) {
-            var dataSource = resp.table,
-                tableData = [];
-            
-            // Iterate over the JSON object
-            for (var i = 0 ; i < dataSource.length; i++) {
-                tableData.push({
-                    "Master_Lab_ID": dataSource[i]["Master_Lab_ID"],
-                    "internal_TAT": dataSource[i]["internal_TAT"],
-                    "report_delivery_time": dataSource[i]["report_delivery_time"],
-                    "specimen_accessioning_time": dataSource[i]["specimen_accessioning_time"]
-                });
+        let tableData = [];
+        const accessToken = tableau.password;
+        
+        $.ajax({
+            url: config.apiUrl,
+            headers: {
+                'authorization': 'Bearer ' + accessToken
+            },
+            dataType: 'json',
+            success: function (resp) {
+                if (resp) {  
+                    const dataSource = resp.table
+                    for (const element of dataSource) {
+                        tableData.push({
+                            "Master_Lab_ID": element["Master_Lab_ID"],
+                            "internal_TAT": element["internal_TAT"],
+                            "report_delivery_time": element["report_delivery_time"],
+                            "specimen_accessioning_time": element["specimen_accessioning_time"]
+                        });
+                    }
+
+                    table.appendRows(tableData);
+                    doneCallback();
+                }
+                else {
+                    tableau.abortWithError("No results found");
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                // WDC should do more granular error checking here
+                // or on the server side.  This is just a sample of new API.
+                tableau.abortForAuth("Invalid Access Token");
             }
-
-
-            table.appendRows(tableData);
-            doneCallback();
         });
     };
     tableau.registerConnector(myConnector);

@@ -50,12 +50,12 @@ def create_app():
     #############################
     # Controllers API for WDC
     #############################
-    @app.route("/cs_byTAT")
+    @app.route("/cs_orderByTAT")
     def cs_by_tat():
         global redirect_back
-        redirect_back = '/cs_byTAT'
+        redirect_back = '/cs_orderByTAT'
         resp = render_template(
-            "cs_byTAT/index.html",
+            "cs_orderByTAT/index.html",
             session=session.get("user"),
             pretty=json.dumps(session.get("user"), indent=4),
         )

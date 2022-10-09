@@ -7,7 +7,7 @@ flask_app_1 = routes.create_app()
 flask_app_2 = api.create_app()
 
 application = DispatcherMiddleware(flask_app_1, {
-    '/v2': flask_app_2
+    '/api/v2': flask_app_2
 })
 
 if __name__ == '__main__':

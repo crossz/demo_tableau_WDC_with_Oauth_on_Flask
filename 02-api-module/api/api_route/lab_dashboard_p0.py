@@ -17,6 +17,9 @@ from flask import Blueprint # 連接當前程式檔的api與Flask應用程序, �
 # 自建的calendar類, 可計算兩個日子相隔的工作日
 from api.other_package.businessDay_calculator import calendar
 
+from api.security.guards import (
+    authorization_guard,
+)
 
 # 建立Flask的藍圖 (會在app.py裏註冊到主應用程序中)
 # lab_p0_app = Blueprint('lab_p0_app', __name__)
@@ -29,7 +32,7 @@ lab_p0_app = Blueprint(bp_name, __name__, url_prefix=bp_url_prefix)
 '''
 頁面說明: 只是測試用途
 '''
-@lab_p0_app.route("/labP0Dashboard")
+@lab_p0_app.route("/")
 def lab_p0_dashboard_testing():
     return "<h1>Lab P0 Dashboard, It's working!!!</h1>"
 
@@ -38,6 +41,7 @@ def lab_p0_dashboard_testing():
 頁面說明: qPCR Repeat Case圖表所需的data
 '''
 @lab_p0_app.route("/qPCRRepeatCase", methods=['GET'])
+@authorization_guard
 def qpcrrepeatcase_data():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute(""" SELECT Operation.master_id AS Master_Lab_ID, \
@@ -68,6 +72,7 @@ def qpcrrepeatcase_data():
 頁面說明: NGS Repeat Case圖表所需的data
 '''
 @lab_p0_app.route("/ngsRepeatCase", methods=['GET'])
+@authorization_guard
 def ngsrepeatcase_data():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute(""" SELECT Operation.master_id AS Master_Lab_ID, \
@@ -99,6 +104,7 @@ def ngsrepeatcase_data():
 頁面說明: TAT Overview 和 By TAT圖表所需的data
 '''
 @lab_p0_app.route("/tat", methods=['GET'])
+@authorization_guard
 def tat_data():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute(""" SELECT Specimen.marster_id AS Master_Lab_ID, \
@@ -134,6 +140,7 @@ def tat_data():
 頁面說明: qPCR Positive 和 NGS Positive 圖表所需的data
 '''
 @lab_p0_app.route("/positiveResult", methods=['GET'])
+@authorization_guard
 def positiveresult_data():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute(""" SELECT DISTINCT Specimen.marster_id AS Master_Lab_ID, \

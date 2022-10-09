@@ -22,16 +22,15 @@ from api.other_package.businessDay_calculator import calendar # 可計算兩個�
 from api.other_package.split_commaSeparatedValues import split_commaSeparatedValues 
                              # 把內含多個選項的字段(datatype為逗點分隔值)拆分，並把每一個選項作為新的字段新增到樣本記錄中
 
+from api.security.guards import (
+    authorization_guard,
+)
 
 # 建立Flask 的藍圖 (會在app.py裏註冊到主應用程序中)
 # cs_p0_app = Blueprint('cs_p0_app', __name__)
 bp_name = 'cs_p0_app'
 bp_url_prefix = '/csP0Dashboard'
 cs_p0_app = Blueprint(bp_name, __name__, url_prefix=bp_url_prefix)
-
-
-
-
 
 '''
 頁面說明：測試用途
@@ -44,9 +43,10 @@ def cs_p0_dashboard_testing():
 頁面說明：(Order) by TAT 圖表所需的data
 '''
 @cs_p0_app.route("/orderByTAT")
+@authorization_guard
 def order_bytat_data():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute(""" SELECT marster_id AS Master_Lab_ID, \
+    cursor.execute("""SELECT marster_id AS Master_Lab_ID, \
                               DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS specimen_accessioning_time, \
                               DATE_FORMAT(printxitattime, '%Y-%m-%d %H:%i:%s') AS report_delivery_time \
                         FROM `lims-meinv`.t_specimen \
@@ -66,6 +66,7 @@ def order_bytat_data():
 頁面說明：(Order) by Risk Factor圖表所需的data
 '''
 @cs_p0_app.route("/orderByRiskFactor")
+@authorization_guard
 def order_byriskfactor_data():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute(""" SELECT Specimen.marster_id AS Master_Lab_ID, \
@@ -98,6 +99,7 @@ def order_byriskfactor_data():
 頁面說明: TAT Achieve Rate圖表所需的data
 '''
 @cs_p0_app.route("/tatAchieveRate")
+@authorization_guard
 def tatachieverate_data():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute(""" SELECT Specimen.marster_id AS Master_Lab_ID, \
