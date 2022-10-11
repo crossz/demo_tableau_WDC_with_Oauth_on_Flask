@@ -51,7 +51,7 @@ def create_app():
     # Controllers API for WDC
     #############################
     @app.route("/cs_orderByTAT")
-    def cs_by_tat():
+    def cs_order_by_tat():
         global redirect_back
         redirect_back = '/cs_orderByTAT'
         resp = render_template(
@@ -60,6 +60,30 @@ def create_app():
             pretty=json.dumps(session.get("user"), indent=4),
         )
         return resp
+
+    @app.route("/cs_orderByRiskFactor")
+    def cs_order_by_riskfactor():
+        global redirect_back
+        redirect_back = '/cs_orderByRiskFactor'
+        resp = render_template(
+            "cs_orderByRiskFactor/index.html",
+            session=session.get("user"),
+            pretty=json.dumps(session.get("user"), indent=4),
+        )
+        return resp
+
+    @app.route("/cs_tatAchieveRate")
+    def cs_tat_achieve_rate():
+        global redirect_back
+        redirect_back = '/cs_tatAchieveRate'
+        resp = render_template(
+            "cs_tatAchieveRate/index.html",
+            session=session.get("user"),
+            pretty=json.dumps(session.get("user"), indent=4),
+        )
+        return resp
+
+
 
 
     #############################
