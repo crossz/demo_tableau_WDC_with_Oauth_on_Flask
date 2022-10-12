@@ -1,5 +1,6 @@
-.DS_Store
-*.iml
-.idea
 .env
-__pycache__
+mysql_config.py
+.pyc
+*.iml
+.directory
+.idea
