@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en">
+<head>
+    <title>Tableau WDC-qPCR Positive and NGS Positive</title>
+    <meta http-equiv="Cache-Control" content="no-store" />
+    
+    <link href="static/style.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" type="text/javascript"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>-->
+    <script src="https://connectors.tableau.com/libs/tableauwdc-2.3.latest.js" type="text/javascript"></script>
+    
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">    
+    <!-- Use to access cookie storage to grab access token -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.0.2/js.cookie.min.js" type="text/javascript"></script>
+    <script src="static/lab_p0/lab_positiveResult.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+
+    <div style="margin: auto; text-align: center; margin-top: 50px; max-width: 300px">
+        <!-- The connect to Foursquare button will have a link added to it in the js-->
+        <!-- <a href="/signin" id="connectbutton"><img src="static/foursquare_connect.png" alt="Login with Foursquare"/></a> -->
+        <!-- <br /><br /> -->
+        
+        {% if session %}
+            <p class="signedin">You are signed in!</p>
+            <p><a href="/logout" id="qsLogoutBtn">Logout</a></p>
+            <div class = "userInput"> <button type = "button" id = "submitButton" class = "btn btn-success" style = "margin: 10px;">Get Data!</button> </div>
+        {% else %}
+            <p class="notsignedin">You are not signed in, please click below to sign in to your Auth0 account.</p>
+            <p><a href="/login" id="qsLoginBtn">Login</a></p>
+        {% endif %}
+  
+        <!-- This button will pull the user's liked venues once the user is authenticated -->
+        <!-- <p><a href="#" id="getapidatabutton" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-arrow-down"></span> Get Data From Flask API</a></p> -->
+        <!-- <div class = "userInput"> <button type = "button" id = "submitButton" class = "btn btn-success" style = "margin: 10px;">Get Data!</button> </div> -->
+    </div>
+
+    <h2 class="header"> Import [qPCR Positive and NGS Positive] Data Into Tableau Dashboard </h2>
+
+
+    {% if session %}
+    <h2 class="header">Welcome {{session.userinfo.name}}!</h2>
+    <!-- <div><pre>{{pretty}}</pre></div> -->
+    {% endif %}
+
+
+</body>
+</html>

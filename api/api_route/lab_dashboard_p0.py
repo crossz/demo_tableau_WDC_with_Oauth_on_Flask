@@ -103,7 +103,7 @@ def ngsrepeatcase_data():
 '''
 頁面說明: TAT Overview 和 By TAT圖表所需的data
 '''
-@lab_p0_app.route("/tat", methods=['GET'])
+@lab_p0_app.route("/tatOverview_and_byTAT", methods=['GET'])
 @authorization_guard
 def tat_data():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)

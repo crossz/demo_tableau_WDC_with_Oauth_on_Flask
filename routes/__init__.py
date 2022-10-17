@@ -83,7 +83,49 @@ def create_app():
         )
         return resp
 
+    @app.route("/lab_qPCRRepeatCase")
+    def lab_qpcr_repeat_case():
+        global redirect_back
+        redirect_back = '/lab_qPCRRepeatCase'
+        resp = render_template(
+            "lab_qPCRRepeatCase/index.html",
+            session=session.get("user"),
+            pretty=json.dumps(session.get("user"), indent=4),
+        )
+        return resp
 
+    @app.route("/lab_ngsRepeatCase")
+    def lab_ngs_repeat_case():
+        global redirect_back
+        redirect_back = '/lab_ngsRepeatCase'
+        resp = render_template(
+            "lab_ngsRepeatCase/index.html",
+            session=session.get("user"),
+            pretty=json.dumps(session.get("user"), indent=4),
+        )
+        return resp
+
+    @app.route("/lab_tatOverview_and_byTAT")
+    def lab_tat_overview_and_bytat():
+        global redirect_back
+        redirect_back = '/lab_tatOverview_and_byTAT'
+        resp = render_template(
+            "lab_tatOverview_and_byTAT/index.html",
+            session=session.get("user"),
+            pretty=json.dumps(session.get("user"), indent=4),
+        )
+        return resp
+
+    @app.route("/lab_positiveResult")
+    def lab_positive_result():
+        global redirect_back
+        redirect_back = '/lab_positiveResult'
+        resp = render_template(
+            "lab_positiveResult/index.html",
+            session=session.get("user"),
+            pretty=json.dumps(session.get("user"), indent=4),
+        )
+        return resp
 
 
     #############################
