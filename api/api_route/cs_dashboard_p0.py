@@ -49,7 +49,7 @@ def order_bytat_data():
     cursor.execute("""SELECT marster_id AS Master_Lab_ID, \
                               DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS specimen_accessioning_time, \
                               DATE_FORMAT(printxitattime, '%Y-%m-%d %H:%i:%s') AS report_delivery_time \
-                        FROM `lims-meinv`.t_specimen \
+                        FROM `lims-new`.t_specimen \
                         WHERE specimen_type = 'Clinical' \
                               AND printxitattime IS NOT NULL; """)
     extracted_data = cursor.fetchall()
@@ -76,8 +76,8 @@ def order_byriskfactor_data():
                               Detail.current_symptoms, \
                               Detail.family_historyofnpc AS family_history_of_npc, \
                               Detail.previousnpcscreen AS previous_npc_screen \
-                        FROM `lims-meinv`.t_specimen AS Specimen \
-                        LEFT Join `lims-meinv`.t_spencimen_detail AS Detail ON Specimen.id= Detail.specimen_id \
+                        FROM `lims-new`.t_specimen AS Specimen \
+                        LEFT Join `lims-new`.t_spencimen_detail AS Detail ON Specimen.id= Detail.specimen_id \
                         WHERE specimen_type = 'Clinical' \
                               AND is_aproval = 1 \
                               AND Specimen.trfentrytat IS NOT NUll; """)
@@ -108,8 +108,8 @@ def tatachieverate_data():
                               DATE_FORMAT(Specimen.trf_scanning_time, '%Y-%m-%d %H:%i:%s') AS trf_scanning_time, \
                               DATE_FORMAT(DATE_ADD(Specimen.create_time, INTERVAL ABS(Specimen.trfentrytat) DAY ), '%Y-%m-%d %H:%i:%s') AS trf_verification_time, \
                               DATE_FORMAT(Specimen.printxitattime, '%Y-%m-%d %H:%i:%s') AS report_delivery_time \
-                        FROM `lims-meinv`.t_specimen AS Specimen \
-                        LEFT Join `lims-meinv`.t_spencimen_detail AS Detail ON Specimen.id = Detail.specimen_id \
+                        FROM `lims-new`.t_specimen AS Specimen \
+                        LEFT Join `lims-new`.t_spencimen_detail AS Detail ON Specimen.id = Detail.specimen_id \
                         WHERE specimen_type = 'Clinical' \
                               AND printxitattime IS NOT NULL \
                               AND trfentrytat IS NOT NULL; """)

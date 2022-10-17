@@ -4,3 +4,5 @@ mysql_config.py
 *.iml
 .directory
 .idea
+__pycache__
+.DS_Store
