@@ -57,8 +57,8 @@ def qpcrrepeatcase_data():
                                     ELSE "No" \
                                 END) AS is_qPCR, \
                                 DATE_FORMAT(Operation.update_time, '%Y-%m-%d %H:%i:%s') AS approval_time \
-                        FROM `lims-meinv`.t_batch_specimen_operation AS Operation \
-                        LEFT JOIN `lims-meinv`.t_specimen AS Specimen ON Operation.master_id = Specimen.marster_id \
+                        FROM t_batch_specimen_operation AS Operation \
+                        LEFT JOIN t_specimen AS Specimen ON Operation.master_id = Specimen.marster_id \
                         WHERE Operation.specimen_id IS NOT NULL \
                                 AND Operation.is_finish = 1 \
                                 AND Specimen.specimen_type = "Clinical" \
@@ -89,8 +89,8 @@ def ngsrepeatcase_data():
                                     ELSE "No" \
                                 END) AS is_NGS, \
                                 DATE_FORMAT(Operation.update_time, '%Y-%m-%d %H:%i:%s') AS approval_time \
-                        FROM `lims-meinv`.t_batch_specimen_operation AS Operation \
-                        LEFT JOIN `lims-meinv`.t_specimen AS Specimen ON Operation.master_id = Specimen.marster_id \
+                        FROM t_batch_specimen_operation AS Operation \
+                        LEFT JOIN t_specimen AS Specimen ON Operation.master_id = Specimen.marster_id \
                         WHERE Operation.specimen_id IS NOT NULL \
                                 AND Operation.is_finish = 1 \
                                 AND Specimen.specimen_type = "Clinical" \
@@ -114,8 +114,8 @@ def tat_data():
                                 DATE_FORMAT(Specimen.create_time, '%Y-%m-%d %H:%i:%s') AS specimen_accessioning_time, \
                                 DATE_FORMAT(Specimen.report_time, '%Y-%m-%d %H:%i:%s') AS v01_report_signoff_time, \
                                 DATE_FORMAT(Specimen.printxitattime, '%Y-%m-%d %H:%i:%s') AS report_delivery_time \
-                        FROM `lims-meinv`.t_specimen AS Specimen \
-                        INNER JOIN `lims-meinv`.t_spencimen_detail AS Details ON Specimen.id = Details.specimen_id \
+                        FROM t_specimen AS Specimen \
+                        INNER JOIN t_spencimen_detail AS Details ON Specimen.id = Details.specimen_id \
                         WHERE Specimen.is_report = 1 \
                                 AND Specimen.specimen_type = 'Clinical' \
                                 AND Specimen.lab_process IN ('Pipeline Results Review', 'qPCR Results Review'); """)
@@ -162,7 +162,7 @@ def positiveresult_data():
                                 END AS is_v02_report_result_authorized, \
                                 Report.test_result AS v02_test_result, \
                                 Report.lab_process AS v02_end_process \
-                        FROM `lims-meinv`.t_specimen AS Specimen LEFT Join `lims-meinv`.t_specimen_report AS Report ON Specimen.id= Report.specimen_id \
+                        FROM t_specimen AS Specimen LEFT Join t_specimen_report AS Report ON Specimen.id= Report.specimen_id \
                         Where Specimen.specimen_type = 'Clinical'; """) 
                         
     extracted_data = cursor.fetchall()
