@@ -9,13 +9,13 @@
 Api 所需的庫
 '''
 # 導入已初始化的Flask應用程序和mysql資料庫物件
-from api.database import mysql
-from flask_mysqldb import MySQLdb # 向MySQL進行CRUD操作
+from api.database import __get_cursor
+# from flask_mysqldb import MySQLdb # 向MySQL進行CRUD操作
 
 
 # Flask的衍生套件和函式：
 from flask import Blueprint, jsonify, current_app
-from flask_mysqldb import MySQL, MySQLdb
+# from flask_mysqldb import MySQL, MySQLdb
 
 # 自建的類和函式
 from api.other_package.businessDay_calculator import calendar # 可計算兩個日子相隔的工作日               
@@ -45,7 +45,8 @@ def cs_p0_dashboard_testing():
 @cs_p0_app.route("/orderByTAT")
 @authorization_guard
 def order_bytat_data():
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor = __get_cursor()
+    # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("""SELECT marster_id AS Master_Lab_ID, \
                               DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS specimen_accessioning_time, \
                               DATE_FORMAT(printxitattime, '%Y-%m-%d %H:%i:%s') AS report_delivery_time \
@@ -68,7 +69,8 @@ def order_bytat_data():
 @cs_p0_app.route("/orderByRiskFactor")
 @authorization_guard
 def order_byriskfactor_data():
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor = __get_cursor()
+    # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute(""" SELECT Specimen.marster_id AS Master_Lab_ID, \
                               DATE_FORMAT(Specimen.create_time, '%Y-%m-%d %H:%i:%s') AS specimen_accessioning_time, \
                               DATE_FORMAT(DATE_ADD(Specimen.create_time, INTERVAL ABS(Specimen.trfentrytat) DAY ), '%Y-%m-%d %H:%i:%s') AS trf_verification_time, \
@@ -101,7 +103,8 @@ def order_byriskfactor_data():
 @cs_p0_app.route("/tatAchieveRate")
 @authorization_guard
 def tatachieverate_data():
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor = __get_cursor()
+    # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute(""" SELECT Specimen.marster_id AS Master_Lab_ID, \
                               DATE_FORMAT(Detail.courier_dispatch_time, '%Y-%m-%d %H:%i:%s') AS courier_dispatch_time, \
                               DATE_FORMAT(Specimen.create_time, '%Y-%m-%d %H:%i:%s') AS specimen_accessioning_time, \

@@ -9,8 +9,8 @@
 Api 所需的庫
 '''
 # 導入已初始化的Flask應用程序和mysql資料庫物件
-from api.database import mysql
-from flask_mysqldb import MySQLdb 
+from api.database import __get_cursor
+# from flask_mysqldb import MySQLdb 
 from flask import jsonify
 from flask import Blueprint # 連接當前程式檔的api與Flask應用程序, 進行應用模塊化
 
@@ -43,7 +43,8 @@ def lab_p0_dashboard_testing():
 @lab_p0_app.route("/qPCRRepeatCase", methods=['GET'])
 @authorization_guard
 def qpcrrepeatcase_data():
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor = __get_cursor()
     cursor.execute(""" SELECT Operation.master_id AS Master_Lab_ID, \
                                 DATE_FORMAT(Specimen.create_time, '%Y-%m-%d %H:%i:%s') AS specimen_accessioning_time, \
                                 (CASE \
@@ -74,7 +75,8 @@ def qpcrrepeatcase_data():
 @lab_p0_app.route("/ngsRepeatCase", methods=['GET'])
 @authorization_guard
 def ngsrepeatcase_data():
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor = __get_cursor()
     cursor.execute(""" SELECT Operation.master_id AS Master_Lab_ID, \
                                 DATE_FORMAT(Specimen.create_time, '%Y-%m-%d %H:%i:%s') AS specimen_accessioning_time, \
                                 (CASE \
@@ -106,7 +108,8 @@ def ngsrepeatcase_data():
 @lab_p0_app.route("/tatOverview_and_byTAT", methods=['GET'])
 @authorization_guard
 def tat_data():
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor = __get_cursor()
     cursor.execute(""" SELECT Specimen.marster_id AS Master_Lab_ID, \
                                 Specimen.lab_process AS end_process, \
                                 DATE_FORMAT(Details.blood_draw_data, '%Y-%m-%d %H:%i:%s') AS blood_draw_time, \
@@ -142,7 +145,8 @@ def tat_data():
 @lab_p0_app.route("/positiveResult", methods=['GET'])
 @authorization_guard
 def positiveresult_data():
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor = __get_cursor()
     cursor.execute(""" SELECT DISTINCT Specimen.marster_id AS Master_Lab_ID, \
                                 DATE_FORMAT(Specimen.create_time, '%Y-%m-%d %H:%i:%s') AS specimen_accessioning_time, \
                                 DATE_FORMAT(Specimen.report_time, '%Y-%m-%d %H:%i:%s') AS v01_report_sign_off_time, \

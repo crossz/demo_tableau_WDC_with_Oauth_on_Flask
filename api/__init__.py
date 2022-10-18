@@ -13,11 +13,7 @@ from api import exception_views
 from api.messages import messages_views
 from api.security.auth0_service import auth0_service
 
-# from api.init import app
-from flask_mysqldb import MySQL, MySQLdb # 向MySQL進行CRUD操作
-from api import mysql_config
-from api.database import mysql
-
+from api.database import __get_cursor
 
 from api.api_route.cs_dashboard_p0 import cs_p0_app
 from api.api_route.lab_dashboard_p0 import lab_p0_app
@@ -89,12 +85,11 @@ def create_app():
     )
 
     ##########################################
-    # MYSQL
+    # MYSQL (python_mysqldb, which depends on system-level mysql-devel)
     ##########################################
-    
-    app.config.from_object(mysql_config)
+    # app.config.from_object(mysql_config)
     # mysql = MySQL(app)
-    mysql.init_app(app)
+
 
 
     # '''
