@@ -1,0 +1,13 @@
+component: scf
+name: scf-python
+app: demo-a3cff85c
+
+inputs:
+  src: ./
+  description: helloworld blank template function. Helloworld空白模板函数
+  handler: index.main_handler
+  runtime: Python3.6
+  namespace: default
+  region: ap-guangzhou
+  memorySize: 128
+  timeout: 3
