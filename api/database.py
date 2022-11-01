@@ -23,4 +23,4 @@ def __get_cursor():
         return mysql_conn.cursor(pymysql.cursors.DictCursor)
     except OperationalError:
         mysql_conn.ping(reconnect=True)
-        return mysql_conn.cursor()
+        return mysql_conn.cursor(pymysql.cursors.DictCursor)
