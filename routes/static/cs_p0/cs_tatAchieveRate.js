@@ -22,7 +22,7 @@
     // ------- UI controled by javascript side from the index.html, not Flask session side. ------ //
     function updateUIWithAuthState(hasAuth) {
         console.log("hasAuth in updateUIWithAuthState(): ", hasAuth)
-        
+        console.log("tableau.phase is: " + tableau.phase)
         // if (hasAuth) {
         //     $(".notsignedin").css('display', 'none');
         //     $(".signedin").css('display', 'block');
@@ -48,6 +48,7 @@
       if (tableau.phase == tableau.phaseEnum.authPhase) {
         // for token expires, e.g. the password input in simulator GUI is changed to a wrong one, 
         console.log('token expired, please login agian.')
+        tableau.abortForAuth()
         // $("#getapidatabutton").css('display', 'none');
       }
 

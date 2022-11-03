@@ -25,7 +25,7 @@
     // BUT: only works for 1st load, afterwards, no matter login/logout in the WDC page, this function will not be invoked again.
     function updateUIWithAuthState(hasAuth) {
         console.log("hasAuth in updateUIWithAuthState(): ", hasAuth)
-        
+        console.log("tableau.phase is: " + tableau.phase)
         // if (hasAuth) {
         //     $(".notsignedin").css('display', 'none');
         //     $(".signedin").css('display', 'block');
@@ -45,13 +45,12 @@
   myConnector.init = function(initCallback) {
       tableau.authType = tableau.authTypeEnum.custom;
 
-      // If we are in the auth phase we only want to show the UI needed for auth
-      // https://tableau.github.io/webdataconnector/docs/wdc_authentication.html
       // Note: This is not really a third phase, because it does not follow the other two; it’s an alternative to the first phase.
       // In this mode, the connector should display only the UI that is required in order to get an updated token. Updates to properties other than tableau.username and tableau.password will be ignored during this phase.
       if (tableau.phase == tableau.phaseEnum.authPhase) {
         // for token expires, e.g. the password input in simulator GUI is changed to a wrong one, 
         console.log('token expired, please login agian.')
+        tableau.abortForAuth()
         // $("#getapidatabutton").css('display', 'none');
       }
 
@@ -73,8 +72,7 @@
       if (tableau.phase == tableau.phaseEnum.interactivePhase || tableau.phase == tableau.phaseEnum.authPhase) {
           if (hasAuth) {
               tableau.password = accessToken;
-
-              tableau.username = "tableau.phase is: " + tableau.phase
+              tableau.username = "tableau.phase in init() is: " + tableau.phase
               
               if (tableau.phase == tableau.phaseEnum.authPhase) {
                 // Auto-submit here if we are in the auth phase

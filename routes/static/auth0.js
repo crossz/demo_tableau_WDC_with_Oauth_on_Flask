@@ -39,6 +39,8 @@
   // This function toggles the label shown depending
   // on whether or not the user has been authenticated
   function updateUIWithAuthState(hasAuth) {
+      console.log("hasAuth in updateUIWithAuthState(): ", hasAuth)
+      console.log("tableau.phase is: " + tableau.phase)
       // if (hasAuth) {
       //     $(".notsignedin").css('display', 'none');
       //     $(".signedin").css('display', 'block');
@@ -55,8 +57,9 @@
   // Init function for connector, called during every phase but
   // only called when running inside the simulator or tableau
   myConnector.init = function(initCallback) {
+    // tableau.connectionName = "tableau.phase in init() is: " + tableau.phase
       tableau.authType = tableau.authTypeEnum.custom;
-
+      console.log('----==== in the init() ====----')
       // If we are in the auth phase we only want to show the UI needed for auth
       // https://tableau.github.io/webdataconnector/docs/wdc_authentication.html
       // Note: This is not really a third phase, because it does not follow the other two; it’s an alternative to the first phase.
@@ -64,14 +67,27 @@
       if (tableau.phase == tableau.phaseEnum.authPhase) {
         // for token expires, e.g. the password input in simulator GUI is changed to a wrong one, 
         console.log('token expired, please login agian.')
+        tableau.abortForAuth()
         // $("#getapidatabutton").css('display', 'none');
+        // document.cookie = 'accessToken'+'=; Max-Age=-99999999;'; 
+        // $.ajax({
+        //   url: '/logout',
+        //   success: function (data) {
+        //         tableau.abortForAuth()
+        //         // tableau.password = ''
+        //         tableau.connectionData = 'aaaa'
+        //         console.log('logged out.')
+        //         console.log(data)
+        //    }
+        // })
       }
-
+      
       if (tableau.phase == tableau.phaseEnum.gatherDataPhase) {
         // If the API that WDC is using has an endpoint that checks
         // the validity of an access token, that could be used here.
         // Then the WDC can call tableau.abortForAuth if that access token
         // is invalid.
+        // tableau.abortForAuth()
       }
 
       var accessToken = Cookies.get("accessToken");
@@ -85,33 +101,49 @@
       if (tableau.phase == tableau.phaseEnum.interactivePhase || tableau.phase == tableau.phaseEnum.authPhase) {
           if (hasAuth) {
               tableau.password = accessToken;
+              tableau.username = "tableau.phase in init() - YES hasAuth test is: " + tableau.phase
+              // tableau.connectionName = "tableau.phase in init() hasAuth test is: " + tableau.phase
 
-              tableau.username = "tableau.phase is: " + tableau.phase
-              
+
+              console.log('----==== end of init() auth check ====----')
+
+
               if (tableau.phase == tableau.phaseEnum.authPhase) {
+                $.ajax({
+                  url: '/logout',
+                  success: function (data) {
+                        tableau.abortForAuth()
+                        tableau.password = ''
+                        tableau.connectionData = 'test writing to connectionData input'
+                        tableau.connectionName = 'test writing to connectionName input'
+                        console.log('logged out.')
+                        console.log(data)
+                   }
+                })
                 // Auto-submit here if we are in the auth phase
                 console.log("tableau.phase is: ", tableau.phase) // this log can be captured only with the following `tableau.submit()` is commented. 
-                // tableau.submit()
+                tableau.submit()
               }
 
               return;
           }
+          tableau.username = "tableau.phase in init() - NO hasAuth test is: " + tableau.phase
       }
+      console.log('----==== end of init() ====----')
   };
 
   // Declare the data to Tableau that we are returning from Foursquare
   myConnector.getSchema = function(schemaCallback) {
+    // tableau.connectionName = "tableau.phase in getSchema() is: " + tableau.phase // gatherData
       var schema = [];
 
       var col1 = { id: "Name", dataType: "string"};
       var col2 = { id: "Message", dataType: "string"};
       var cols = [col1, col2];
-
       var tableInfo = {
         id: "Authh0MessageTable",
         columns: cols
       }
-
       schema.push(tableInfo);
 
       schemaCallback(schema);
@@ -120,6 +152,7 @@
   // This function actually make the foursquare API call and
   // parses the results and passes them back to Tableau
   myConnector.getData = function(table, doneCallback) {
+    // tableau.connectionName = "tableau.phase in getData() is: " + tableau.phase // gatherData
       var dataToReturn = [];
       var hasMoreData = false;
 
@@ -142,11 +175,7 @@
                     'Message': Object.values(api_text_message)
                   };
                   dataToReturn.push(message);
-                  
-
-
-
-
+                
                   
                   table.appendRows(dataToReturn);
                   doneCallback();
