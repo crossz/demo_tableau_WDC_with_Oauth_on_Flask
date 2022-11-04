@@ -18,9 +18,12 @@ if not mysql_conn:
       autocommit  = True
     )
 
+
 def __get_cursor():
-    try:
-        return mysql_conn.cursor(pymysql.cursors.DictCursor)
-    except OperationalError:
-        mysql_conn.ping(reconnect=True)
-        return mysql_conn.cursor(pymysql.cursors.DictCursor)
+    mysql_conn.ping(reconnect=True)
+    return mysql_conn.cursor(pymysql.cursors.DictCursor)
+    # try:
+    #     return mysql_conn.cursor(pymysql.cursors.DictCursor)
+    # except OperationalError:
+    #     mysql_conn.ping(reconnect=True)
+    #     return mysql_conn.cursor(pymysql.cursors.DictCursor)
