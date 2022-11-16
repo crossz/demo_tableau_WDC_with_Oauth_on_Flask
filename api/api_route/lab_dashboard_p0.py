@@ -110,18 +110,23 @@ def ngsrepeatcase_data():
 def tat_data():
     # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor = __get_cursor()
-    cursor.execute(""" SELECT Specimen.marster_id AS Master_Lab_ID, \
-                                Specimen.lab_process AS end_process, \
-                                DATE_FORMAT(Details.blood_draw_data, '%Y-%m-%d %H:%i:%s') AS blood_draw_time, \
-                                DATE_FORMAT(Details.specimen_pickup_time, '%Y-%m-%d %H:%i:%s') AS clinic_call_time, \
-                                DATE_FORMAT(Specimen.create_time, '%Y-%m-%d %H:%i:%s') AS specimen_accessioning_time, \
-                                DATE_FORMAT(Specimen.report_time, '%Y-%m-%d %H:%i:%s') AS v01_report_signoff_time, \
-                                DATE_FORMAT(Specimen.printxitattime, '%Y-%m-%d %H:%i:%s') AS report_delivery_time \
-                        FROM t_specimen AS Specimen \
-                        INNER JOIN t_spencimen_detail AS Details ON Specimen.id = Details.specimen_id \
-                        WHERE Specimen.is_report = 1 \
-                                AND Specimen.specimen_type = 'Clinical' \
-                                AND Specimen.lab_process IN ('Pipeline Results Review', 'qPCR Results Review'); """)
+    cursor.execute("""SELECT
+            DATE_FORMAT( Details.specimen_pickup_time, '%Y-%m-%d %H:%i:%s' ) AS clinic_call_time,
+            Specimen.lab_process AS end_process,
+            Specimen.marster_id AS Master_Lab_ID,
+            DATE_FORMAT( Specimen.printxitattime, '%Y-%m-%d %H:%i:%s' ) AS report_delivery_time,
+            DATE_FORMAT( Specimen.create_time, '%Y-%m-%d %H:%i:%s' ) AS specimen_accessioning_time,
+            DATE_FORMAT( Specimen.report_time, '%Y-%m-%d %H:%i:%s' ) AS v01_report_signoff_time,
+            DATEDIFF( printxtattime, specimen_pickup_time ) AS doctor_percived_tat,
+            internaltat,
+            DATEDIFF( printxtattime, blood_draw_data ) AS patient_percived_tat 
+        FROM
+            t_specimen AS Specimen
+            INNER JOIN t_spencimen_detail AS Details ON Specimen.id = Details.specimen_id 
+        WHERE
+            Specimen.specimen_type = 'Clinical' 
+        ORDER BY
+            Specimen.create_time DESC;""")
     extracted_data = cursor.fetchall()
 
     # 計算每個樣本的TAT

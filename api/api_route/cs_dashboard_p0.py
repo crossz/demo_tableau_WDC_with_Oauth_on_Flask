@@ -47,12 +47,17 @@ def cs_p0_dashboard_testing():
 def order_bytat_data():
     cursor = __get_cursor()
     # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute("""SELECT marster_id AS Master_Lab_ID, \
-                              DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS specimen_accessioning_time, \
-                              DATE_FORMAT(printxitattime, '%Y-%m-%d %H:%i:%s') AS report_delivery_time \
-                        FROM t_specimen \
-                        WHERE specimen_type = 'Clinical' \
-                              AND printxitattime IS NOT NULL; """)
+    cursor.execute("""SELECT
+            marster_id AS Master_Lab_ID,
+            DATE_FORMAT(printxitattime, '%Y-%m-%d %H:%i:%s') AS report_delivery_time,
+            DATE_FORMAT( create_time, '%Y-%m-%d %H:%i:%s' ) AS specimen_accessioning_time,
+            internaltat 
+        FROM
+            t_specimen 
+        WHERE
+            specimen_type = 'Clinical' 
+        ORDER BY
+            id DESC""")
     extracted_data = cursor.fetchall()
 
     # 計算每個樣本的TAT
@@ -105,17 +110,23 @@ def order_byriskfactor_data():
 def tatachieverate_data():
     cursor = __get_cursor()
     # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute(""" SELECT Specimen.marster_id AS Master_Lab_ID, \
-                              DATE_FORMAT(Detail.courier_dispatch_time, '%Y-%m-%d %H:%i:%s') AS courier_dispatch_time, \
-                              DATE_FORMAT(Specimen.create_time, '%Y-%m-%d %H:%i:%s') AS specimen_accessioning_time, \
-                              DATE_FORMAT(Specimen.trf_scanning_time, '%Y-%m-%d %H:%i:%s') AS trf_scanning_time, \
-                              DATE_FORMAT(DATE_ADD(Specimen.create_time, INTERVAL ABS(Specimen.trfentrytat) DAY ), '%Y-%m-%d %H:%i:%s') AS trf_verification_time, \
-                              DATE_FORMAT(Specimen.printxitattime, '%Y-%m-%d %H:%i:%s') AS report_delivery_time \
-                        FROM t_specimen AS Specimen \
-                        LEFT Join t_spencimen_detail AS Detail ON Specimen.id = Detail.specimen_id \
-                        WHERE specimen_type = 'Clinical' \
-                              AND printxitattime IS NOT NULL \
-                              AND trfentrytat IS NOT NULL; """)
+    cursor.execute("""SELECT
+            DATE_FORMAT( Detail.courier_dispatch_time, '%Y-%m-%d %H:%i:%s' ) AS courier_dispatch_time,
+            Specimen.marster_id AS Master_Lab_ID,
+            DATE_FORMAT( Specimen.printxitattime, '%Y-%m-%d %H:%i:%s' ) AS report_delivery_time,
+            DATE_FORMAT( Specimen.create_time, '%Y-%m-%d %H:%i:%s' ) AS specimen_accessioning_time,
+            DATE_FORMAT( Specimen.trf_scanning_time, '%Y-%m-%d %H:%i:%s' ) AS trf_scanning_time,
+            DATE_FORMAT( DATE_ADD( Specimen.create_time, INTERVAL ABS( Specimen.trfentrytat ) DAY ), '%Y-%m-%d %H:%i:%s' ) AS trf_verification_time,internaltat,
+            partnertat,
+            porter_servicetat,
+            Specimen.trfentrytat
+        FROM
+            t_specimen AS Specimen
+            LEFT JOIN t_spencimen_detail AS Detail ON Specimen.id=Detail.specimen_id 
+        WHERE
+            specimen_type='Clinical' 
+        ORDER BY
+            Specimen.id DESC;""")
     extracted_data = cursor.fetchall()
 
     # 計算每個樣本的TAT
