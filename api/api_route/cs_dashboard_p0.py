@@ -76,18 +76,19 @@ def order_bytat_data():
 def order_byriskfactor_data():
     cursor = __get_cursor()
     # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute(""" SELECT Specimen.marster_id AS Master_Lab_ID, \
-                              DATE_FORMAT(Specimen.create_time, '%Y-%m-%d %H:%i:%s') AS specimen_accessioning_time, \
-                              DATE_FORMAT(DATE_ADD(Specimen.create_time, INTERVAL ABS(Specimen.trfentrytat) DAY ), '%Y-%m-%d %H:%i:%s') AS trf_verification_time, \
-                              Detail.current_smoker, \
-                              Detail.current_symptoms, \
-                              Detail.family_historyofnpc AS family_history_of_npc, \
-                              Detail.previousnpcscreen AS previous_npc_screen \
-                        FROM t_specimen AS Specimen \
-                        LEFT Join t_spencimen_detail AS Detail ON Specimen.id= Detail.specimen_id \
-                        WHERE specimen_type = 'Clinical' \
-                              AND is_aproval = 1 \
-                              AND Specimen.trfentrytat IS NOT NUll; """)
+    cursor.execute("""SELECT Specimen.marster_id AS Master_Lab_ID,
+        DATE_FORMAT(Specimen.create_time, '%Y-%m-%d %H:%i:%s') AS specimen_accessioning_time,
+        DATE_FORMAT(DATE_ADD(Specimen.create_time, INTERVAL ABS(Specimen.trfentrytat) DAY ), '%Y-%m-%d %H:%i:%s') AS trf_verification_time,
+        is_aproval,
+        Specimen.trfentrytat,
+        Detail.current_smoker,
+        Detail.current_symptoms,
+        Detail.family_historyofnpc AS family_history_of_npc,
+        Detail.previousnpcscreen AS previous_npc_screen
+        FROM t_specimen AS Specimen
+        LEFT Join t_spencimen_detail AS Detail ON Specimen.id= Detail.specimen_id
+        WHERE specimen_type = 'Clinical'
+        order by specimen_accessioning_time desc;""")
     extracted_data = cursor.fetchall()
 
     # 把內含多個選項的字段(datatype為逗點分隔值)拆分，並把每一個選項作為新的字段新增到樣本記錄中

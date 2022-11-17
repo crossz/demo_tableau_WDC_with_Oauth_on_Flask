@@ -45,25 +45,21 @@ def lab_p0_dashboard_testing():
 def qpcrrepeatcase_data():
     # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor = __get_cursor()
-    cursor.execute(""" SELECT Operation.master_id AS Master_Lab_ID, \
-                                DATE_FORMAT(Specimen.create_time, '%Y-%m-%d %H:%i:%s') AS specimen_accessioning_time, \
-                                (CASE \
-                                    WHEN Operation.operation IN (10, 20) \
-                                    THEN "Yes" \
-                                    ELSE "No" \
-                                END ) AS is_repeat, \
-                                (CASE \
-                                    WHEN Operation.admin_report_type IN ("qPCR Extraction", "qPCR Run", "qPCR  Result Review") \
-                                    THEN "Yes" \
-                                    ELSE "No" \
-                                END) AS is_qPCR, \
-                                DATE_FORMAT(Operation.update_time, '%Y-%m-%d %H:%i:%s') AS approval_time \
-                        FROM t_batch_specimen_operation AS Operation \
-                        LEFT JOIN t_specimen AS Specimen ON Operation.master_id = Specimen.marster_id \
-                        WHERE Operation.specimen_id IS NOT NULL \
-                                AND Operation.is_finish = 1 \
-                                AND Specimen.specimen_type = "Clinical" \
-                        GROUP BY Specimen.marster_id; """)
+    cursor.execute("""select Specimen.marster_id AS Master_Lab_ID,
+        DATE_FORMAT(Specimen.create_time, '%Y-%m-%d %H:%i:%s') AS specimen_accessioning_time,
+        (CASE
+        WHEN Operation.operation IN (10, 20)
+        THEN "Yes"
+        ELSE "No"
+        END ) AS is_repeat,
+        (CASE
+        WHEN Specimen.lab_process IN ("qPCR Extraction", "qPCR Run", "qPCR Results Review")
+        THEN "Yes"
+        ELSE "No"
+        END) AS is_qPCR,
+        Specimen.lab_process
+        from t_specimen Specimen left join t_batch_specimen_operation Operation on Specimen.marster_id = Operation.master_id
+        where Specimen.create_time between '2022-10-1' and '2022-11-01 00:00' and Specimen.specimen_type = 'Clinical' group by Specimen.marster_id;""")
     extracted_data = cursor.fetchall()
     cursor.close()
     return jsonify({"table": extracted_data})
@@ -77,26 +73,22 @@ def qpcrrepeatcase_data():
 def ngsrepeatcase_data():
     # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor = __get_cursor()
-    cursor.execute(""" SELECT Operation.master_id AS Master_Lab_ID, \
-                                DATE_FORMAT(Specimen.create_time, '%Y-%m-%d %H:%i:%s') AS specimen_accessioning_time, \
-                                (CASE \
-                                    WHEN Operation.operation IN (10, 20) \
-                                    THEN "Yes" \
-                                    ELSE "No" \
-                                END ) AS is_repeat, \
-                                (CASE \
-                                    WHEN Operation.admin_report_type IN ('NGS Extraction', 'NGS Extraction QC', 'Library Prep', 'Library Prep QC', \
-                                                                        'Target Capture', 'Target Capture QC', 'Sequencing', 'Pipeline Results Review') \
-                                    THEN "Yes" \
-                                    ELSE "No" \
-                                END) AS is_NGS, \
-                                DATE_FORMAT(Operation.update_time, '%Y-%m-%d %H:%i:%s') AS approval_time \
-                        FROM t_batch_specimen_operation AS Operation \
-                        LEFT JOIN t_specimen AS Specimen ON Operation.master_id = Specimen.marster_id \
-                        WHERE Operation.specimen_id IS NOT NULL \
-                                AND Operation.is_finish = 1 \
-                                AND Specimen.specimen_type = "Clinical" \
-                        GROUP BY Specimen.marster_id; """)
+    cursor.execute("""select Specimen.marster_id AS Master_Lab_ID,
+        DATE_FORMAT(Specimen.create_time, '%Y-%m-%d %H:%i:%s') AS specimen_accessioning_time,
+        (CASE
+        WHEN Operation.operation IN (10, 20)
+        THEN "Yes"
+        ELSE "No"
+        END ) AS is_repeat,
+        (CASE
+        WHEN Specimen.lab_process IN ('NGS Extraction', 'NGS Extraction QC', 'Library Prep', 'Library Prep QC',
+        'Target Capture', 'Target Capture QC', 'Sequencing', 'Pipeline Results Review')
+        THEN "Yes"
+        ELSE "No"
+        END) AS is_NGS,
+        Specimen.lab_process
+        from t_specimen Specimen left join t_batch_specimen_operation Operation on Specimen.marster_id = Operation.master_id
+        where Specimen.create_time between '2022-10-1' and '2022-11-01 00:00' and Specimen.specimen_type = 'Clinical' group by Specimen.marster_id;""")
     extracted_data = cursor.fetchall()
     cursor.close()
     return jsonify({"table": extracted_data})
@@ -152,27 +144,28 @@ def tat_data():
 def positiveresult_data():
     # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor = __get_cursor()
-    cursor.execute(""" SELECT DISTINCT Specimen.marster_id AS Master_Lab_ID, \
-                                DATE_FORMAT(Specimen.create_time, '%Y-%m-%d %H:%i:%s') AS specimen_accessioning_time, \
-                                DATE_FORMAT(Specimen.report_time, '%Y-%m-%d %H:%i:%s') AS v01_report_sign_off_time, \
-                                CASE  \
-                                WHEN Specimen.status = 50  \
-                                    THEN 'Yes'  \
-                                ELSE 'No'  \
-                                END AS is_v01_report_result_authorized,  \
-                                Specimen.test_result AS v01_report_result, \
-                                Specimen.lab_process AS v01_end_process, \
-                                CASE \
-                                WHEN Report.status = 50 \
-                                    THEN 'Yes' \
-                                WHEN Report.status IS NULL \
-                                    THEN NULL \
-                                ELSE 'No' \
-                                END AS is_v02_report_result_authorized, \
-                                Report.test_result AS v02_test_result, \
-                                Report.lab_process AS v02_end_process \
-                        FROM t_specimen AS Specimen LEFT Join t_specimen_report AS Report ON Specimen.id= Report.specimen_id \
-                        Where Specimen.specimen_type = 'Clinical'; """) 
+    cursor.execute("""SELECT DISTINCT Specimen.marster_id AS Master_Lab_ID,
+        DATE_FORMAT(Specimen.create_time, '%Y-%m-%d %H:%i:%s') AS specimen_accessioning_time,
+        DATE_FORMAT(Specimen.report_time, '%Y-%m-%d %H:%i:%s') AS v01_report_sign_off_time,
+        CASE
+        WHEN Specimen.status = 50
+        THEN 'Yes'
+        ELSE 'No'
+        END AS is_v01_report_result_authorized,
+        Specimen.test_result AS v01_report_result,
+        Specimen.lab_process AS v01_end_process,
+        CASE
+        WHEN Report.status = 50
+        THEN 'Yes'
+        WHEN Report.status IS NULL
+        THEN NULL
+        ELSE 'No'
+        END AS is_v02_report_result_authorized,
+        Report.test_result AS v02_test_result,
+        Report.lab_process AS v02_end_process
+        FROM t_specimen AS Specimen LEFT Join t_specimen_report AS Report ON Specimen.id= Report.specimen_id
+        Where Specimen.specimen_type = 'Clinical'
+        order by Specimen.create_time desc""") 
                         
     extracted_data = cursor.fetchall()
     cursor.close()
