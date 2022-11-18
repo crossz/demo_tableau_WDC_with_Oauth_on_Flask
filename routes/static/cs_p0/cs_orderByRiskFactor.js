@@ -47,7 +47,7 @@
       // In this mode, the connector should display only the UI that is required in order to get an updated token. Updates to properties other than tableau.username and tableau.password will be ignored during this phase.
       if (tableau.phase == tableau.phaseEnum.authPhase) {
         // for token expires, e.g. the password input in simulator GUI is changed to a wrong one, 
-        console.log('token expired, please login agian.')
+        console.log('token expired, please login again.')
         // $("#getapidatabutton").css('display', 'none');
       }
 

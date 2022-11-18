@@ -109,9 +109,10 @@ def tat_data():
             DATE_FORMAT( Specimen.printxitattime, '%Y-%m-%d %H:%i:%s' ) AS report_delivery_time,
             DATE_FORMAT( Specimen.create_time, '%Y-%m-%d %H:%i:%s' ) AS specimen_accessioning_time,
             DATE_FORMAT( Specimen.report_time, '%Y-%m-%d %H:%i:%s' ) AS v01_report_signoff_time,
-            DATEDIFF( printxtattime, specimen_pickup_time ) AS doctor_percived_tat,
+            DATE_FORMAT(Details.blood_draw_data, '%Y-%m-%d %H:%i:%s') AS blood_draw_time,
+            DATEDIFF( printxtattime, specimen_pickup_time ) AS doctor_perceived_tat,
             internaltat,
-            DATEDIFF( printxtattime, blood_draw_data ) AS patient_percived_tat 
+            DATEDIFF( printxtattime, blood_draw_data ) AS patient_perceived_tat 
         FROM
             t_specimen AS Specimen
             INNER JOIN t_spencimen_detail AS Details ON Specimen.id = Details.specimen_id 
