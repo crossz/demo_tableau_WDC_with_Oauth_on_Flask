@@ -59,7 +59,7 @@ def qpcrrepeatcase_data():
         END) AS is_qPCR,
         Specimen.lab_process
         from t_specimen Specimen left join t_batch_specimen_operation Operation on Specimen.marster_id = Operation.master_id
-        where Specimen.create_time between '2022-10-1' and '2022-11-01 00:00' and Specimen.specimen_type = 'Clinical' group by Specimen.marster_id;""")
+        where Specimen.specimen_type = 'Clinical' group by Specimen.marster_id;""")
     extracted_data = cursor.fetchall()
     cursor.close()
     return jsonify({"table": extracted_data})
