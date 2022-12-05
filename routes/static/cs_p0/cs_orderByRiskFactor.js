@@ -97,139 +97,22 @@
             id: "trf_verification_time",
             dataType: tableau.dataTypeEnum.datetime
         }, {
+            id: "is_aproval",
+                dataType: tableau.dataTypeEnum.string
+        }, {
+            id: "trfentrytat",
+                dataType: tableau.dataTypeEnum.string
+        }, {
             id: "current_smoker",
                 dataType: tableau.dataTypeEnum.string
         }, {
-            id: "current_symptoms_opt_0",
+            id: "current_symptoms",
                 dataType: tableau.dataTypeEnum.string
         }, {
-            id: "current_symptoms_opt_1",
+            id: "family_history_of_npc",
                 dataType: tableau.dataTypeEnum.string
         }, {
-            id: "current_symptoms_opt_2",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "current_symptoms_opt_3",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "current_symptoms_opt_4",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "current_symptoms_opt_5",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "current_symptoms_opt_6",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "current_symptoms_opt_7",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "current_symptoms_opt_8",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "current_symptoms_opt_9",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "current_symptoms_opt_10",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "current_symptoms_opt_11",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "current_symptoms_opt_12",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "current_symptoms_opt_13",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "current_symptoms_opt_14",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "current_symptoms_opt_15",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "current_symptoms_opt_16",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "current_symptoms_opt_17",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "current_symptoms_opt_18",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "current_symptoms_opt_19",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "current_symptoms_opt_20",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "current_symptoms_opt_21",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "family_history_of_npc_opt_0",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "family_history_of_npc_opt_1",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "family_history_of_npc_opt_2",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "family_history_of_npc_opt_3",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "family_history_of_npc_opt_4",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "family_history_of_npc_opt_5",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "family_history_of_npc_opt_6",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "family_history_of_npc_opt_7",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "family_history_of_npc_opt_8",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "family_history_of_npc_opt_9",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "previous_npc_screen_opt_0",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "previous_npc_screen_opt_1",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "previous_npc_screen_opt_2",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "previous_npc_screen_opt_3",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "previous_npc_screen_opt_4",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "previous_npc_screen_opt_5",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "previous_npc_screen_opt_6",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "previous_npc_screen_opt_7",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "previous_npc_screen_opt_8",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "previous_npc_screen_opt_9",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "previous_npc_screen_opt_10",
-                dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "previous_npc_screen_opt_11",
+            id: "previous_npc_screen",
                 dataType: tableau.dataTypeEnum.string
         }];
 
@@ -263,51 +146,12 @@
                             "Master_Lab_ID": element["Master_Lab_ID"],
                             "specimen_accessioning_time": element["specimen_accessioning_time"],
                             "trf_verification_time": element["trf_verification_time"],
+                            "is_aproval": element["is_aproval"],
+                            "trfentrytat": element["trfentrytat"],
                             "current_smoker": element["current_smoker"],
-                            "current_symptoms_opt_0": element["current_symptoms_opt_0"],
-                            "current_symptoms_opt_1": element["current_symptoms_opt_1"],
-                            "current_symptoms_opt_2": element["current_symptoms_opt_2"],
-                            "current_symptoms_opt_3": element["current_symptoms_opt_3"],
-                            "current_symptoms_opt_4": element["current_symptoms_opt_4"],
-                            "current_symptoms_opt_5": element["current_symptoms_opt_5"],
-                            "current_symptoms_opt_6": element["current_symptoms_opt_6"],
-                            "current_symptoms_opt_7": element["current_symptoms_opt_7"],
-                            "current_symptoms_opt_8": element["current_symptoms_opt_8"],
-                            "current_symptoms_opt_9": element["current_symptoms_opt_9"],
-                            "current_symptoms_opt_10": element["current_symptoms_opt_10"],
-                            "current_symptoms_opt_11": element["current_symptoms_opt_11"],
-                            "current_symptoms_opt_12": element["current_symptoms_opt_12"],
-                            "current_symptoms_opt_13": element["current_symptoms_opt_13"],
-                            "current_symptoms_opt_14": element["current_symptoms_opt_14"],
-                            "current_symptoms_opt_15": element["current_symptoms_opt_15"],
-                            "current_symptoms_opt_16": element["current_symptoms_opt_16"],
-                            "current_symptoms_opt_17": element["current_symptoms_opt_17"],
-                            "current_symptoms_opt_18": element["current_symptoms_opt_18"],
-                            "current_symptoms_opt_19": element["current_symptoms_opt_19"],
-                            "current_symptoms_opt_20": element["current_symptoms_opt_20"],
-                            "current_symptoms_opt_21": element["current_symptoms_opt_21"],
-                            "family_history_of_npc_opt_0": element["family_history_of_npc_opt_0"],
-                            "family_history_of_npc_opt_1": element["family_history_of_npc_opt_1"],
-                            "family_history_of_npc_opt_2": element["family_history_of_npc_opt_2"],
-                            "family_history_of_npc_opt_3": element["family_history_of_npc_opt_3"],
-                            "family_history_of_npc_opt_4": element["family_history_of_npc_opt_4"],
-                            "family_history_of_npc_opt_5": element["family_history_of_npc_opt_5"],
-                            "family_history_of_npc_opt_6": element["family_history_of_npc_opt_6"],
-                            "family_history_of_npc_opt_7": element["family_history_of_npc_opt_7"],
-                            "family_history_of_npc_opt_8": element["family_history_of_npc_opt_8"],
-                            "family_history_of_npc_opt_9": element["family_history_of_npc_opt_9"],
-                            "previous_npc_screen_opt_0": element["previous_npc_screen_opt_0"],
-                            "previous_npc_screen_opt_1": element["previous_npc_screen_opt_1"],
-                            "previous_npc_screen_opt_2": element["previous_npc_screen_opt_2"],
-                            "previous_npc_screen_opt_3": element["previous_npc_screen_opt_3"],
-                            "previous_npc_screen_opt_4": element["previous_npc_screen_opt_4"],
-                            "previous_npc_screen_opt_5": element["previous_npc_screen_opt_5"],
-                            "previous_npc_screen_opt_6": element["previous_npc_screen_opt_6"],
-                            "previous_npc_screen_opt_7": element["previous_npc_screen_opt_7"],
-                            "previous_npc_screen_opt_8": element["previous_npc_screen_opt_8"],
-                            "previous_npc_screen_opt_9": element["previous_npc_screen_opt_9"],
-                            "previous_npc_screen_opt_10": element["previous_npc_screen_opt_10"],
-                            "previous_npc_screen_opt_11": element["previous_npc_screen_opt_11"]
+                            "current_symptoms": element["current_symptoms"],
+                            "family_history_of_npc": element["family_history_of_npc"],
+                            "previous_npc_screen": element["previous_npc_screen"]
                         });
                     }
 
