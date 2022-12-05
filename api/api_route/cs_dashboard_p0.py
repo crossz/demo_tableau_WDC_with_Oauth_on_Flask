@@ -91,13 +91,13 @@ def order_byriskfactor_data():
         order by specimen_accessioning_time desc;""")
     extracted_data = cursor.fetchall()
 
-    # 把內含多個選項的字段(datatype為逗點分隔值)拆分，並把每一個選項作為新的字段新增到樣本記錄中
-    risk_factors = [["current_symptoms", 22],
-                    ["family_history_of_npc", 10],
-                    ["previous_npc_screen", 12]]
-    for each_record in list(extracted_data):
-        for risk_factor in risk_factors:
-            split_commaSeparatedValues(each_record, risk_factor[0], risk_factor[1]) 
+    # # 把內含多個選項的字段(datatype為逗點分隔值)拆分，並把每一個選項作為新的字段新增到樣本記錄中
+    # risk_factors = [["current_symptoms", 22],
+    #                 ["family_history_of_npc", 10],
+    #                 ["previous_npc_screen", 12]]
+    # for each_record in list(extracted_data):
+    #     for risk_factor in risk_factors:
+    #         split_commaSeparatedValues(each_record, risk_factor[0], risk_factor[1]) 
 
     cursor.close()
     return jsonify({"table": extracted_data})
